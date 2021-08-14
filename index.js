@@ -18,7 +18,7 @@ stream.pipe(csv.parse())
     .on("error", err => console.log(err))
     .on("data", row => {
         if (header) {
-            for (let i = 0; i < row.length; i++)
+            for (let i = 0; i < row.length; i++) {
                 if (row[i] == "fullname") {
                     fullname = i
                 } else if (row[i] == "eid") {
@@ -46,7 +46,7 @@ stream.pipe(csv.parse())
                 } else if (row[i].search("group") != -1) {
                     groups.push(i)
                 }
-            // console.log(fullname, eid, emails, phones, groups, invisible, see_all)
+            }
 
             header = false
         } else {
