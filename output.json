@@ -92,57 +92,6 @@
         "see_all": false
     },
     {
-        "fullname": "John Appleseed",
-        "eid": "104",
-        "groups": [
-            "Sala 2",
-            "Sala 5",
-            "Sala 6"
-        ],
-        "addresses": [
-            {
-                "type": "email",
-                "tags": [
-                    "Student"
-                ],
-                "address": "john.appleseed1@exemplo.com"
-            },
-            {
-                "type": "email",
-                "tags": [
-                    "Pedagogical",
-                    "Responsible"
-                ],
-                "address": "dad.appleseed1@exemplo.com"
-            },
-            {
-                "type": "email",
-                "tags": [
-                    "Pedagogical",
-                    "Responsible"
-                ],
-                "address": "dad.appleseed2@exemplo.com"
-            },
-            {
-                "type": "phone",
-                "tags": [
-                    "Student"
-                ],
-                "address": "5511999901235"
-            },
-            {
-                "type": "phone",
-                "tags": [
-                    "Pedagogical",
-                    "Responsible"
-                ],
-                "address": "5511999911235"
-            }
-        ],
-        "invisible": true,
-        "see_all": false
-    },
-    {
         "fullname": "Mary Knight",
         "eid": "105",
         "groups": [

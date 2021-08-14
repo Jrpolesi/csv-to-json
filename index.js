@@ -114,21 +114,11 @@ stream.pipe(csv.parse())
 
             row[see_all] = checkInvisibleAndSeeAllFields(row[see_all])
 
-            //    const didSameEid = finalJson.forEach((element, index) => {
-            //         if (element.eid.indexOf(row[eid]) != -1) {
-            //             return index
-            //         } else {
-            //             return index
-            //         }
-            //     })
+            let sameId = false
 
-            //     console.log(didSameEid)
-            //     if (didSameEid !== false) {
-            //         let element = didSameEid
-
-
-            finalJson.forEach((element, index) => {
+            finalJson.forEach((element) => {
                 if (element.eid.indexOf(row[eid]) != -1) {
+                    sameId = true
                     element.fullname = row[fullname]
 
                     allGroups.forEach((group) => {
@@ -143,19 +133,16 @@ stream.pipe(csv.parse())
                 }
             })
 
-
-
-
-            // } else {
-            finalJson.push({
-                fullname: row[fullname],
-                eid: row[eid],
-                groups: allGroups,
-                addresses: addresses,
-                invisible: row[invisible],
-                see_all: row[see_all]
-            })
-            // }
+            if (!sameId) {
+                finalJson.push({
+                    fullname: row[fullname],
+                    eid: row[eid],
+                    groups: allGroups,
+                    addresses: addresses,
+                    invisible: row[invisible],
+                    see_all: row[see_all]
+                })
+            }
         }
     })
     .on("end", () => {
