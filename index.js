@@ -4,7 +4,7 @@ const csv = require("fast-csv");
 
 const stream = fs.createReadStream("input.csv")
 
-let header = true
+let isHeader = true
 
 let fullname, eid, invisible, see_all;
 const emails = []
@@ -17,7 +17,7 @@ const finalJson = []
 stream.pipe(csv.parse())
     .on("error", err => console.log(err))
     .on("data", row => {
-        if (header) {
+        if (isHeader) {
             for (let i = 0; i < row.length; i++) {
                 if (row[i] == "fullname") {
                     fullname = i
@@ -48,42 +48,42 @@ stream.pipe(csv.parse())
                 }
             }
 
-            header = false
+            isHeader = false
         } else {
 
             const allGroups = []
 
             groups.forEach((group) => {
 
-                let separetedGroup = row[group].replace(",", "/").split("/")
+                let separatedGroup = row[group].replace(",", "/").split("/")
 
-                let formatedGroup = separetedGroup.map((group) => {
+                let formattedGroup = separatedGroup.map((group) => {
                     return group.trim()
                 })
 
-                formatedGroup = formatedGroup.filter((group) => {
+                formattedGroup = formattedGroup.filter((group) => {
                     return group != ""
                 })
 
-                allGroups.push(...formatedGroup)
+                allGroups.push(...formattedGroup)
             })
 
 
             const addresses = []
 
             emails.forEach((email) => {
-                let separetedEmail = row[email.i].replace(",", "/").split("/")
+                let separatedEmail = row[email.i].replace(",", "/").split("/")
 
 
-                separetedEmail.forEach((eachEmail) => {
-                    let formatedEmail = eachEmail.replace(/\(/g, "").replace(/\)/g, "").replace(/,/g, "").replace(/:/g, "").replace(/;/g, "").trim()
+                separatedEmail.forEach((eachEmail) => {
+                    let formattedEmail = eachEmail.replace(/\(/g, "").replace(/\)/g, "").replace(/,/g, "").replace(/:/g, "").replace(/;/g, "").trim()
 
 
-                    if (validateEmail(formatedEmail)) {
+                    if (validateEmail(formattedEmail)) {
                         let address = {
                             type: "email",
                             tags: email.tags,
-                            address: formatedEmail
+                            address: formattedEmail
                         }
                         addresses.push(address)
                     }
@@ -92,19 +92,19 @@ stream.pipe(csv.parse())
 
             phones.forEach((phone) => {
 
-                let formatedPhone = row[phone.i].replace("(", "").replace(")", "").replace("-", "").replace(" ", "")
+                let formattedPhone = row[phone.i].replace(/\(/g, "").replace(/\)/g, "").replace(/\-/g, "").replace(/\ /g, "")
 
 
-                if (formatedPhone.length > 10 && !isNaN(formatedPhone)) {
+                if (formattedPhone.length > 10 && !isNaN(formattedPhone)) {
 
-                    if (formatedPhone.length < 12) {
-                        formatedPhone = "55" + formatedPhone
+                    if (formattedPhone.length < 12) {
+                        formattedPhone = "55" + formattedPhone
                     }
 
                     let address = {
                         type: "phone",
                         tags: phone.tags,
-                        address: formatedPhone
+                        address: formattedPhone
                     }
                     addresses.push(address)
                 }
@@ -114,11 +114,11 @@ stream.pipe(csv.parse())
 
             row[see_all] = checkInvisibleAndSeeAllFields(row[see_all])
 
-            let sameId = false
+            let isSameId = false
 
             finalJson.forEach((element) => {
                 if (element.eid.indexOf(row[eid]) != -1) {
-                    sameId = true
+                    isSameId = true
                     element.fullname = row[fullname]
 
                     allGroups.forEach((group) => {
@@ -133,7 +133,7 @@ stream.pipe(csv.parse())
                 }
             })
 
-            if (!sameId) {
+            if (!isSameId) {
                 finalJson.push({
                     fullname: row[fullname],
                     eid: row[eid],
